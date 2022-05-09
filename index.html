@@ -4,22 +4,22 @@
 <head>
   <title>GeoSoftware1 Assignment 2</title>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="src/style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 
 
 </head>
 <body onload="onLoad()">
-  <script src="src/pois.js"></script>
-  <script src="src/point.js"></script>
-  <script src="src/script.js"></script>
+  <script src="pois.js"></script>
+  <script src="point.js"></script>
+  <script src="script.js"></script>
 
   <div class="a" align="center">
   <h1>GeoSoftware1 Assignment 2</h1>
 
   <div>
-  	assignment: 02 MUSTER<br>
+  	assignment: 03 <br>
   	course: Geosoftware I SoSe 2022 <br>
-  	authors: Noel Schnierer, Felix Niebl, Nick Jakuschona <br> <br>
+  	template authors: Noel Schnierer, Felix Niebl, Nick Jakuschona <br> <br>
 
     Diese Seite nimmt eine Liste von POIs im GeoJSON-Format und einen Nutzerdefinierten Standort entgegen, und berechnet die distanz vom Standort zu allen POIs. Die POIs werden, mit aufsteigender Distanz sortiert, in einer Tabelle dargestellt.
 
@@ -29,6 +29,7 @@
     <textarea rows="2" id="userPosition"></textarea><br>
     <button id="refreshBtn" class="button" type="button">refresh</button>
     <button id="getLocationBtn" class="button" type="button">get user location</button>
+    <button id="getDataBtn" class="button" type="button">get data</button>
   </div>
 
   <br>

@@ -1,6 +1,7 @@
 /**
 * Musterlösung zu Aufgabe 2, Geosoft 1, SoSe 2022
-* @author {Name der studierenden Person}   matr.Nr.: {Matrikelnummer}
+* @author Darian Weiss   matr.Nr.: 515040
+* @version 1.3.0
 */
 
 "use strict";
@@ -29,6 +30,12 @@ function onLoad() {
       }
     }
   );
+  document.getElementById("getDataBtn").addEventListener("click",
+  () => {
+    getData();
+  }
+  );
+
 
   //daten vorbereiten und main ausführen
   pois = JSON.parse(pois);
@@ -232,4 +239,37 @@ function showPosition(position) {
   //add the coordinates to the geoJson
   outJSON.features.push(pointFeature);
   x.innerHTML = JSON.stringify(outJSON);
+}
+
+
+const getData = () => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://rest.busradar.conterra.de/prod/haltestellen');
+  xhr.onload = () => {
+    const data = JSON.parse(xhr.response);
+    console.log(data);
+    //console.log(data.features[6].geometry);
+    //console.log(data.features[78].properties.lbez);
+    //console.log(data.features[5].geometry.coordinates);
+    //bushaltestellenErstellen(){
+    let haltestellenarray = Array.apply(null, Array[data.features.length]);
+    for (var h = 0; h < data.features.length; h++) {
+     haltestellenarray[h] = new Bushaltestelle(data.features[h].properties.nr, data.features[h].properties.lbez, data.features[h].properties.richtung, data.features[h].geometry.coordinates);
+     
+     }
+     console.log(haltestellenarray);
+    }
+ // }
+  xhr.send();
+}
+
+class Bushaltestelle {
+  constructor(nr, name, richtung, koordinaten) {
+    this.nr = nr;
+    this.name = name;
+    this.richtung = richtung;
+    this.koordinaten = koordinaten;
+  }
+ // function distanzenBerechnen
+
 }
