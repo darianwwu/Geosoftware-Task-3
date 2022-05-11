@@ -1,5 +1,6 @@
 /**
-* Musterlösung zu Aufgabe 2, Geosoft 1, SoSe 2022
+* Aufgabe 3 Geosoft 1, SoSe 2022
+* Vorlage: Musterlösung zu Aufgabe 2
 * @author Darian Weiss   matr.Nr.: 515040
 * @version 1.3.2
 */
