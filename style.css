@@ -1,9 +1,10 @@
 div.a {
   text-align: center;
   font-family: Consolas;
-  padding-top: 40px;
-  padding-right: 25%;
-  padding-left: 25%;
+  padding-top: 30px;
+  padding-right: 20%;
+  padding-left: 20%;
+  font-size: 18px;
 }
 
 div.script {
@@ -13,8 +14,8 @@ div.script {
 }
 
 th{
-  background-color: #A9A9A9;
-  color: white;
+  background-color: #b6cea0;
+  color: rgb(8, 8, 8);
 }
 table, th, td {
   padding: 10px;
@@ -25,4 +26,5 @@ table, th, td {
 .button {
 	text-align: center;
  	font-family: Consolas;
+  font-size: 20px; 
 }

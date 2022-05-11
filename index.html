@@ -14,36 +14,55 @@
   <script src="script.js"></script>
 
   <div class="a" align="center">
-  <h1>GeoSoftware1 Assignment 2</h1>
+  <h1>Geosoftware Aufgabe 3</h1>
 
   <div>
-  	assignment: 03 <br>
-  	course: Geosoftware I SoSe 2022 <br>
-  	template authors: Noel Schnierer, Felix Niebl, Nick Jakuschona <br> <br>
+  	Kurs: Geosoftware I SoSe 2022 <br>
+    Autor: Darian Weiß <br>
+  	Vorlage von: Noel Schnierer, Felix Niebl, Nick Jakuschona <br> <br>
 
-    Diese Seite nimmt eine Liste von POIs im GeoJSON-Format und einen Nutzerdefinierten Standort entgegen, und berechnet die distanz vom Standort zu allen POIs. Die POIs werden, mit aufsteigender Distanz sortiert, in einer Tabelle dargestellt.
+    Diese Seite nimmt einen Nutzerdefinierten Standort entgegen, und listet alle Münsteraner Bushaltestellen im Umkreis von 200m auf. In der zweiten Tabelle werden die nächsten Abfahrten dargestellt.
 
     <hr>
 
-    current position geojson: <br>
+  
     <textarea rows="2" id="userPosition"></textarea><br>
-    <button id="refreshBtn" class="button" type="button">refresh</button>
-    <button id="getLocationBtn" class="button" type="button">get user location</button>
-    <button id="getDataBtn" class="button" type="button">get data</button>
+    Um die Bushaltestellen in der Nähe des Geo 1 Gebäudes zu erhalten nur auf "Los" klicken.<br>
+    Um die Bushaltestellen in der Nähe des eigenen Standorts zu erhalten zunächst auf "Meinen Standort abfragen", dann auf "Aktualisieren" und dann auf "Los" klicken. <br><br>
+    <button id="getLocationBtn" class="button" type="button">Meinen Standort abfragen</button>
+    <button id="refreshBtn" class="button" type="button">Aktualisieren</button>
+    <button id="getDataBtn" class="button" type="button">Los</button>
   </div>
-
-  <br>
 
   <div id="geoJSON" class="script" align="center">
   </div>
 
   <br>
+<div id ="wegmitdemdreck" style= "display: none">
 
   <table style="width:75%" align="center" id="resultTable">
     <tr>
       <th>Coordinates</td>
       <th>Point of Interest</td>
       <th>Distance (in meters)</td>
+    </tr>
+  </table>
+</div>
+
+  <table style="width:75%" align="center" id="resultTableNew">
+    <tr>
+      <th>Haltestelle Name</td>
+      <th>Koordinaten</td>
+      <th>Entfernung (in m)</td>
+    </tr>
+  </table>
+<br/>
+  <table style="width:75%" align="center" id="resultTableNewTakeOff">
+    <tr>
+      <th>Haltestelle Name</td>
+      <th>Richtung</td>
+      <th>Linie</td>
+      <th>Abfahrtszeit</td>
     </tr>
   </table>
 

@@ -1,7 +1,7 @@
 /**
 * Musterlösung zu Aufgabe 2, Geosoft 1, SoSe 2022
 * @author Darian Weiss   matr.Nr.: 515040
-* @version 1.3.0
+* @version 1.3.2
 */
 
 "use strict";
@@ -35,8 +35,7 @@ function onLoad() {
     getData();
   }
   );
-
-
+ 
   //daten vorbereiten und main ausführen
   pois = JSON.parse(pois);
   main(point, pointcloud);
@@ -203,6 +202,46 @@ function drawTable(results) {
 }
 
 /**
+ * @function drawTableNew
+ * @desc inserts the calculated data into the first table that's displayed on the page
+ * @param {*} results array of JSON with contains
+ */
+function drawTableNew(results) {
+  var table = document.getElementById("resultTableNew");
+  //creates the Table with the direction an distances
+  for (var j = 0; j < results.length; j++) {
+    var newRow = table.insertRow(j + 1);
+    var cel1 = newRow.insertCell(0);
+    var cel2 = newRow.insertCell(1);
+    var cel3 = newRow.insertCell(2);
+    cel2.innerHTML = results[j].koordinaten;
+    cel1.innerHTML = results[j].name;
+    cel3.innerHTML = (Math.round(twoPointDistance(results[j].koordinaten, point)));
+  } 
+}
+
+/**
+ * @function drawTableNewNew
+ * @desc inserts the calculated data into the second table that's displayed on the page
+ * @param {*} results array of JSON with contains
+ */
+function drawTableNewNew(results) {
+  var table = document.getElementById("resultTableNewTakeOff");
+  //creates the Table with the direction an distances
+  for (var j = 0; j < results.length; j++) {
+    var newRow = table.insertRow(j + 1);
+    var cel1 = newRow.insertCell(0);
+    var cel2 = newRow.insertCell(1);
+    var cel3 = newRow.insertCell(2);
+    var cel4 = newRow.insertCell(3);
+    cel1.innerHTML = results[j].lbez;
+    cel2.innerHTML = results[j].richtungstext;
+    cel3.innerHTML = results[j].linientext;
+    cel4.innerHTML = (zeitUmrechnen(results[j].abfahrtszeit));
+  } 
+}
+
+/**
 * @function arrayToGeoJSON
 * @desc function that converts a given array of points into a geoJSON feature collection.
 * @param inputArray Array that is to be converted
@@ -241,28 +280,74 @@ function showPosition(position) {
   x.innerHTML = JSON.stringify(outJSON);
 }
 
+/**
+ * @function bushaltestellenImUmkreis
+ * @desc inserts the calculated data into the table that's displayed on the page
+ * @param radius radius in m
+ * @param haltestellenarray array of Obejcts from type Bushaltestelle
+ */
+function bushaltestellenImUmkreis(radius, haltestellenarray){
+   let haltestellenarrayoi = new Array;
+   for (var i = 0; i <haltestellenarray.length; i++) {
+     if(twoPointDistance(haltestellenarray[i].koordinaten, point) < radius){
+    haltestellenarrayoi.push(haltestellenarray[i]);
+   }
+  }
+  console.log(haltestellenarrayoi);
+  drawTableNew(haltestellenarrayoi);
+for (var k = 0; k <haltestellenarrayoi.length; k++){
+  const xhrnew = new XMLHttpRequest();
+  const haltnr = haltestellenarrayoi[k].nr;
+  xhrnew.open('GET', 'https://rest.busradar.conterra.de/prod/haltestellen/'+haltnr+'/abfahrten');
+  xhrnew.onload = () => {
+    let datanew = JSON.parse(xhrnew.response);
+    console.log(datanew);
+    drawTableNewNew(datanew);
+  }
+  xhrnew.send();
+  }
+  }
 
+  /**
+ * @function getData
+ * @desc Recieves data from the server.
+ */
 const getData = () => {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://rest.busradar.conterra.de/prod/haltestellen');
   xhr.onload = () => {
     const data = JSON.parse(xhr.response);
     console.log(data);
-    //console.log(data.features[6].geometry);
-    //console.log(data.features[78].properties.lbez);
-    //console.log(data.features[5].geometry.coordinates);
-    //bushaltestellenErstellen(){
     let haltestellenarray = Array.apply(null, Array[data.features.length]);
     for (var h = 0; h < data.features.length; h++) {
      haltestellenarray[h] = new Bushaltestelle(data.features[h].properties.nr, data.features[h].properties.lbez, data.features[h].properties.richtung, data.features[h].geometry.coordinates);
      
      }
      console.log(haltestellenarray);
+    bushaltestellenImUmkreis(200, haltestellenarray);
     }
- // }
   xhr.send();
 }
 
+/**
+ * @function zeitUmrechnen
+ * @param sekunden seconds that will be converted
+ * @returns time in gmt format
+ */
+function zeitUmrechnen(sekunden){
+  var datum = new Date(0);
+  datum.setSeconds(45);
+  var timeString = datum.toISOString().substr(11,8);
+  var millisek = sekunden * 1000;
+  var datum = new Date(millisek);
+  var zeit = datum.toISOString().slice(0,-5);
+  return zeit + "GMT";
+}
+
+/**
+ * @public
+ * @desc Class of Bushaltestellen.
+ */
 class Bushaltestelle {
   constructor(nr, name, richtung, koordinaten) {
     this.nr = nr;
@@ -270,6 +355,4 @@ class Bushaltestelle {
     this.richtung = richtung;
     this.koordinaten = koordinaten;
   }
- // function distanzenBerechnen
-
 }
