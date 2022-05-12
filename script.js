@@ -339,10 +339,10 @@ function zeitUmrechnen(sekunden){
   var datum = new Date(0);
   datum.setSeconds(45);
   var timeString = datum.toISOString().substr(11,8);
-  var millisek = sekunden * 1000;
+  var millisek = sekunden * 1000 +(60000*120);
   var datum = new Date(millisek);
   var zeit = datum.toISOString().slice(0,-5);
-  return zeit + "GMT";
+  return zeit;
 }
 
 /**
